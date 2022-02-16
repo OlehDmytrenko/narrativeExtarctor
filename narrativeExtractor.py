@@ -136,44 +136,7 @@ def load_models():
 if __name__ == "__main__":
     nlp_ukr, nlp_rus, nlp_eng, nlp_heb, nlp_chn = load_models()
     
-    #text = input()
-    text = """[CITATION][C] Understanding criminal law
-J Dressler, FR Strong, ME Moritz - 1987 - M. Bender
-***
-[PDF][PDF] Criminal sentences: Law without order
-ME Frankel - 1973 - insidepdf.info
-The trouble with sentencing is that it s lawless - The New York Times Criminal Sentences: Law 
-Without Order. Front Cover. ME Frankel The Culture of Control: Crime and Social Order in Contemporary 
-Society · David Garland Criminal sentences law without order, : Marvin E Frankel . Columbia …
-***
-[CITATION][C] Handbook on criminal law
-WR LaFave, AW Scott - 1972 - West Publishing Company
-***
-[BOOK][B] The sanctity of life and the criminal law
-GL Williams, WC Warren - 1958 - epubarea.info
-THE SANCTITY OF LIFE and the Criminal Law by Glanville Williams . Full text. Full text is available 
-as a scanned copy of the original print version. Get a printable copy (PDF file) of the complete 
-article (365K), or click on a page The Sanctity of Life and the Criminal Law Buy the The Sanctity …
-***
-[BOOK][B] Textbook of criminal law
-GL Williams, DJ Baker - 1983 - sinbooksret.com
-Sweet & Maxwells Textbook of Criminal Law by Glanville . - Flipkart Download citation Glanville 
-Williams T. Glanville Williams Textbook of Criminal Law is an exposition and evaluation of the 
-criminal law. Now updated and ?Glanville Williams Textbook of Criminal Law: Dennis Baker …
-***
-[BOOK][B] Criminal law defenses
-PH Robinson, J Grall, M Moskovitz - 1984 - ncjrs.gov
-The volumes discuss the proof and disproof of criminal law defenses and the alternative consequences of a successful defense. They set out an overall conceptual framework within which all criminal law defenses can be considered and describe practical implications of …
-***
-[CITATION][C] A History of English Criminal Law and Its Administration from 1750: The Emergence of Penal Policy
-L Radzinowicz - 1948 - Stevens & sons
-***
-[CITATION][C] Criminal law: The general part
-GL Williams - 1953 - Stevens
-***
-[BOOK][B] International criminal law: cases and commentary
-A Cassese, G Acquaviva, M Fan, A Whiting - 2011 - books.google.com
-International Criminal Law: Cases and Commentary presents a concise and comprehensive explanation of the development of major areas in substantive international criminal law, through a selection of key illustrative cases from domestic and international jurisdictions"""
+    text = input()
     messages = text.split('***')
     
     for message in messages:
