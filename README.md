@@ -21,19 +21,29 @@
 <a name="software"></a>
 <h2>Програмне забезпечення, необхідне для функціонування програмного модуля</h2>
 
-Для функціонування програмного модуля, написаного мовою програмування `Python`, необхідне наступне програмне забезпечення та пакети:
+Для функціонування програмного модуля, написаного мовою програмування `Python`, необхідне наступне програмне забезпечення, пакети та моделі:
 
 - `python 3.8.0` or newer [v3.8.0](https://www.python.org/downloads/release/python-380/)
 - `Stanza` [v.1.3.0](https://pypi.org/project/stanza/1.3.0/)
-- `langdetect ` [1.0.9](https://pypi.org/project/langdetect/1.0.9/)
 - `Stop-words` [v.2018.7.23](https://pypi.org/project/stop-words/2018.7.23/)
-- `Docker` [v20.10](https://docs.docker.com/engine/release-notes/#version-2010)
-- `Kubernetes` [v1.22.4](https://github.com/kubernetes/kubernetes/releases/tag/v1.22.4)
+- `fastText` [v9.0.2](fhttps://github.com/facebookresearch/fastText)
+- `nltk` [v3.7](https://pypi.org/project/nltk/3.7/)
+- [lid.176.ftz](https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz)
+- `uk`, `ru`, `en`, `he` та `lzh` [models](https://stanfordnlp.github.io/stanza/available_models.html), які необхідно інсталювати за допомогою наступного коду;#
+```python
+import stanza
+
+stanza.download("uk")
+stanza.download("ru")
+stanza.download("en")
+stanza.download("lzh")
+stanza.download("he")
+```
 
 <a name="function"></a>
 <h2>Функціональне призначення</h2>
 
-Програмний модуль **"narrativeExtractor"** для попередньої обробки природомовних текстових даних поданих українською, російською, англійською, івритом та китайською мовою, що включає токенізацію тексту та видалення стоп-слів, і подальше виокремлення ключових слів і словосполучень з тематичних текстових потоків за допомогою застосування більш широкої обробки природної мови, що базується на розбитті на частини мови – Part-of-speech tagging, та кінцевого статистичного зважування термінів за допомогою глобальної частоти терміну — [G`GTF` (Global Term Frequency)](http://odmytrenko.tilda.ws/2018paper6) з урахуванням тегів, отриманих після Part-of-speech tagging.
+Програмний модуль **"narrativeExtractor"** для попередньої обробки природомовних текстових даних поданих українською, російською, англійською, івритом та китайською мовою, що включає токенізацію тексту та видалення стоп-слів, і подальше виокремлення ключових слів і словосполучень з тематичних текстових потоків за допомогою застосування більш широкої обробки природної мови, що базується на розбитті на частини мови – Part-of-speech tagging, та кінцевого статистичного зважування термінів за допомогою глобальної частоти терміну — [GTF (Global Term Frequency)](http://odmytrenko.tilda.ws/2018paper6) з урахуванням тегів, отриманих після Part-of-speech tagging.
 
 <a name="structure"></a>
 <h2>Опис логічної структури</h2>
