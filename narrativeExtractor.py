@@ -9,35 +9,27 @@ Edited on Wed Feb  16 15:23:25 2022
 
 """
 import io
-import langdetect
-from stop_words import get_stop_words
 import stanza
+from stop_words import get_stop_words
+import fasttext
 from nltk import FreqDist
 
-def keyTerms(Words, Bigrams, Threegrams):
-    keyWords = ''
-    fdist = FreqDist(word.lower() for word in Words)
-    for (word, freq) in fdist.most_common(12):
-        keyWords = keyWords + word  + ', ' 
-    print (keyWords[:-2])
-    
-    keyBigrams = ''
-    fdist = FreqDist(bigram.lower() for bigram in Bigrams)
-    for (bigram, freq) in fdist.most_common(12):
-        keyBigrams = keyBigrams + bigram  + ', ' 
-    print (keyBigrams[:-2])
-    
-    keyThreegrams = ''
-    fdist = FreqDist(threegram.lower() for threegram in Threegrams)
-    for (threegram, freq) in fdist.most_common(12):
-        keyThreegrams = keyThreegrams + threegram  + ', ' 
-    print (keyThreegrams[:-2])
-    
+def most_freq(keyTerms, top):
+    mostFreqKeyTerms = ''
+    fdist = FreqDist(word.lower() for word in keyTerms)
+    for (term, freq) in fdist.most_common(top):
+        mostFreqKeyTerms = mostFreqKeyTerms + term  + ', ' 
+    return mostFreqKeyTerms[:-2]
+
+def most_freq_key_terms(Words, Bigrams, Threegrams, top = 12):
+    print (most_freq(Words,top))
+    print (most_freq(Bigrams, top))
+    print (most_freq(Threegrams,top))
     print ('***')
     return
 
 def built_words(sent, Words, SW):
-    WordsTags = [] #
+    WordsTags = []
     sentTermsTags = []
     for word in sent.words:
         i = word.lemma
@@ -100,7 +92,7 @@ def nlp_processing(text):
         sentsTermsTags.append(sentTermsTags)
     return Words, Bigrams, Threegrams
 
-def NLP_StopWord(lang):
+def nlp_stopword(lang):
     if (lang == "ukr") or (lang == "uk"):
         nlp = nlp_ukr
         SW = set(get_stop_words('ukrainian')+(io.open('SW_ukr.txt', 'r', encoding="utf-8").read()).split())
@@ -118,12 +110,18 @@ def NLP_StopWord(lang):
         SW = (io.open('SW_chn.txt', 'r', encoding="utf-8").read()).split()
     return nlp, SW
 
-def langDetect(message):
-    lang = langdetect.detect(message)
-    if ((lang == 'uk') or (lang == 'ru') or (lang == 'en') or (lang == 'he') or (lang == "zh-cn") or (lang == "zh-tw")):
-        return lang
-    else: 
-        return 'en'
+def lang_detect(message):
+    lid_model = fasttext.load_model('lid.176.ftz')
+    message = message.replace("\n"," ")
+    if message.isspace():
+        return ""
+    else:
+        try:
+            # get first item of the prediction tuple, then split by "__label__" and return only language code
+            lang = lid_model.predict(message)[0][0].split("__label__")[1]
+        except:
+            return "en"
+    return lang
 
 def load_models():
     nlp_ukr = stanza.Pipeline(lang="uk", processors='tokenize,pos,lemma')
@@ -141,11 +139,11 @@ if __name__ == "__main__":
     
     for message in messages:
         print (message)
-        lang = langDetect(message)
-        nlp, SW = NLP_StopWord(lang)
+        lang = lang_detect(message)
+        nlp, SW = nlp_stopword(lang)
         
         Words, Bigrams, Threegrams  = nlp_processing(message)
         
-        keyTerms(Words, Bigrams, Threegrams)
+        most_freq_key_terms(Words, Bigrams, Threegrams)
 
         
