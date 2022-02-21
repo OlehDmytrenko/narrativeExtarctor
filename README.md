@@ -26,10 +26,10 @@
 - `python 3.8.0` or newer [v3.8.0](https://www.python.org/downloads/release/python-380/)
 - `Stanza` [v.1.3.0](https://pypi.org/project/stanza/1.3.0/)
 - `Stop-words` [v.2018.7.23](https://pypi.org/project/stop-words/2018.7.23/)
-- `fastText` [v9.0.2](fhttps://github.com/facebookresearch/fastText)
+- `fastText` [v9.0.2](https://github.com/facebookresearch/fastText)
 - `nltk` [v3.7](https://pypi.org/project/nltk/3.7/)
 - [lid.176.ftz](https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz)
-- `uk`, `ru`, `en`, `he` та `lzh` [models](https://stanfordnlp.github.io/stanza/available_models.html), які необхідно інсталювати виконавши нступний програмний код;
+- `uk`, `ru`, `en`, `he` та `lzh` [models](https://stanfordnlp.github.io/stanza/available_models.html) для відповідно української, російської, англійської, івриту та китайської мови, які необхідно інсталювати, виконавши нступний програмний код;
 ```python
 import stanza
 
