@@ -8,6 +8,10 @@ Edited on Wed Feb  16 15:23:25 2022
 @author: Олег Дмитренко
 
 """
+#import importPackages
+packages = ['io', 'stanza', 'stop_words', 'fasttext', 'nltk']
+#importPackages.setup_packeges(packages)
+
 import io
 import stanza
 from stop_words import get_stop_words
