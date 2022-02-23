@@ -10,188 +10,13 @@ Edited on Wed Feb  23 05:23:30 2022
 @author: Олег Дмитренко
 
 """
-import importPackages
-packages = ['io', 'stanza', 'stop_words', 'fasttext', 'nltk']
-importPackages.setup_packeges(packages)
 
-import os
-import io
-import stanza
-from stop_words import safe_get_stop_words
-import fasttext
-from nltk import FreqDist
-
-def most_freq(keyTerms, top):
-    mostFreqKeyTerms = ''
-    fdist = FreqDist(word.lower() for word in keyTerms)
-    for (term, freq) in fdist.most_common(top):
-        mostFreqKeyTerms = mostFreqKeyTerms + term  + ', ' 
-    return mostFreqKeyTerms[:-2]
-
-def most_freq_key_terms(Words, Bigrams, Threegrams, top = 12):
-    print (most_freq(Words,top))
-    print (most_freq(Bigrams, top))
-    print (most_freq(Threegrams,top))
-    print ('***')
-    return
-
-def built_words(sent, Words, stopWords):
-    WordsTags = []
-    for word in sent.words:
-        i = word.lemma
-        j = word.upos
-        if j=='PROPN':
-            j = 'NOUN'
-        WordsTags.append((i,j))
-        if (i not in stopWords) and (j == 'NOUN'): 
-            Words.append(i)
-    return WordsTags, Words
-
-def built_bigrams(WordsTags, Bigrams, stopWords):
-    for i in range(1, len(WordsTags)):
-        w1 = WordsTags[i-1][0] 
-        w2 = WordsTags[i][0]
-        t1 = WordsTags[i-1][1]
-        t2 = WordsTags[i][1]
-        if (t1 == 'ADJ') and (t2 == 'NOUN') and (w1 not in stopWords) and (w2 not in stopWords):
-            Bigrams.append(w1+'_'+w2)
-    return Bigrams
-
-def built_threegrams(WordsTags, Threegrams, stopWords):
-    for i in range(2, len(WordsTags)):
-        w1 = WordsTags[i-2][0]
-        w2 = WordsTags[i-1][0]
-        w3 = WordsTags[i][0]
-        t1 = WordsTags[i-2][1]
-        t2 = WordsTags[i-1][1]
-        t3 = WordsTags[i][1]
-        if (t1 == 'NOUN') and ((t2 == 'CCONJ') or (t2 == 'ADP')) and (t3 == 'NOUN') and (w1 not in stopWords) and (w3 not in stopWords):
-            Threegrams.append(w1+'_'+w2+'_'+w3)
-        elif (t1 == 'ADJ') and (t2 == 'ADJ') and (t3 == 'NOUN') and (w1 not in stopWords) and (w2 not in stopWords) and (w3 not in stopWords):
-            Threegrams.append(w1+'_'+w2+'_'+w3)
-    return Threegrams
-
-def nlp_processing(text, nlpModel, stopWords):
-    Words = []
-    Bigrams = []
-    Threegrams = []
-    doc = nlpModel(text)
-    sents = doc.sentences
-    for sent in sents:
-        WordsTags, Words = built_words(sent, Words, stopWords)
-        if len(WordsTags)>2:
-            Bigrams = built_bigrams(WordsTags, Bigrams, stopWords)
-        if len(WordsTags)>3:
-            Threegrams = built_threegrams(WordsTags, Threegrams, stopWords)
-    return Words, Bigrams, Threegrams
-
-def load_stop_words(defaultLangs):
-    for lang in defaultLangs:
-        if lang not in stopWords.keys():
-            if os.path.isfile(lang+'.txt'):
-                localStopWords = (io.open(lang+'.txt', 'r', encoding="utf-8").read()).split()
-            else:
-                localStopWords = []
-            try:
-                stopWords[lang] = set(safe_get_stop_words(lang) + localStopWords)
-                print (str(lang) + ' stop words was loaded successfully!')
-            except:
-                return "Error! Stop words can not be loaded!"      
-    return stopWords
-
-def download_model(defaultLangs):
-    for lang in defaultLangs:
-        if lang not in nlpModels.keys():
-            try:
-                stanza.download(lang)
-                print (str(lang) + ' stanza model was downloaded successfully!')
-                
-            except:
-                return "Error! Language model can not be dowloaded!" 
-            try:
-                nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
-                print (str(lang) + ' stanza model was loaded successfully!')
-            except:
-                return "Error! Language model can not be loaded!"       
-    return nlpModels
-
-def append_lang(lang):
-    try:
-        defaultLangs.append(lang)
-        with io.open("defaultLangs.csv", "a", encoding="utf-8") as file:
-            file.write(lang+'\n')
-            file.close()
-    except:
-        print ('Unexpected Error while adding new languade to default list!')
-    return
-
-def lang_detect(message):
-    lidModel = fasttext.load_model('lid.176.ftz')
-    if message.isspace():
-        return "Error! Empty input space! Language of empty input space can not be defined!"
-    else:
-        try:
-            # get first item of the prediction tuple, then split by "__label__" and return only language code
-            lang = lidModel.predict(message)[0][0].split("__label__")[1]
-        except:
-            return "en"
-    if lang not in defaultLangs:
-        append_lang(lang)
-        download_model(defaultLangs)
-        load_stop_words(defaultLangs)
-    return lang
-
-def load_default_stop_words(defaultLangs):
-    #checking if list is empty
-    if defaultLangs:
-        for lang in defaultLangs:
-            if os.path.isfile(lang+'.txt'):
-                localStopWords = (io.open(lang+'.txt', 'r', encoding="utf-8").read()).split()
-            else:
-                localStopWords = []
-            try:
-                stopWords[lang] = set(safe_get_stop_words(lang) + localStopWords)
-                print (str(lang) + ' stop words was loaded successfully!')
-            except:
-                return "Error! Stop words can not be loaded!"
-    else:
-        print('The <defaultLangs> list is empty!')
-        print ('Please, enter below at least one language ! For example, "en" or any other availible at https://fasttext.cc/docs/en/language-identification.html')
-        lang = input()
-        append_lang(lang)
-        load_stop_words(defaultLangs)
-    return stopWords
-
-def load_default_models(defaultLangs):
-    #checking if list is empty
-    if defaultLangs:
-        for lang in defaultLangs:
-            try:
-                nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
-                print (str(lang) + ' stanza model was loaded successfully!')
-            except:
-                return "Error! Language model is can not be loaded!"
-    else:
-        print('The <defaultLangs> list is empty!')
-        print ('Please, enter below at least one language ! For example, "en" or any other availible at https://fasttext.cc/docs/en/language-identification.html')
-        lang = input()
-        append_lang(lang)
-        download_model(defaultLangs)
-    return nlpModels
-
-def load_default_languages():
-    try:
-        defaultLangs = (io.open("defaultLangs.csv", 'r', encoding="utf-8").read()).split()
-    except:
-        defaultLangs = ['uk', 'ru', 'en', 'he', 'zh']
-    return defaultLangs
+from modules import defaultLoader, textProcessor, termsRanker
 
 if __name__ == "__main__":
-    defaultLangs = load_default_languages()   
-    nlpModels = dict()
-    stopWords = dict()
-    nlpModels = load_default_models(defaultLangs)
-    stopWords = load_default_stop_words(defaultLangs)
+    defaultLangs = defaultLoader.load_default_languages()   
+    nlpModels = defaultLoader.load_default_models(defaultLangs)
+    stopWords = defaultLoader.load_default_stop_words(defaultLangs)
     
     #text = input()
     text = """
@@ -276,11 +101,11 @@ if __name__ == "__main__":
     for message in messages:
         message = message.replace("\n"," ") #delete all \n from input message
         print (message)
-        lang = lang_detect(message)
+        lang = textProcessor.lang_detect(message, defaultLangs)
         print (lang)
         
-        Words, Bigrams, Threegrams  = nlp_processing(message, nlpModels[lang], stopWords[lang])
+        Words, Bigrams, Threegrams  = textProcessor.nl_processing(message, nlpModels[lang], stopWords[lang])
         
-        most_freq_key_terms(Words, Bigrams, Threegrams)
+        termsRanker.most_freq_key_terms(Words, Bigrams, Threegrams)
 
         
