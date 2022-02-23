@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb  11:45:30 2022
+Created on Wed Feb 11:45:30 2022
 
 @author: Олег Дмитренко
 
@@ -34,7 +34,6 @@ def load_stop_words(defaultLangs, stopWords):
                 return "Error! Stop words can not be loaded!"      
     return stopWords
 
-
 def load_default_stop_words(defaultLangs):
     stopWords = dict()
     #checking if list is empty
@@ -62,28 +61,32 @@ def download_model(defaultLangs, nlpModels):
         if lang not in nlpModels.keys():
             try:
                 stanza.download(lang)
-                print (str(lang) + ' stanza model was downloaded successfully!')
-                
+                print (str(lang) + ' stanza model was downloaded successfully!')    
             except:
-                return "Error! Language model can not be dowloaded!" 
+                return "Error! "+str(lang)+" language model can not be dowloaded!" 
             try:
                 nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
                 print (str(lang) + ' stanza model was loaded successfully!')
             except:
-                return "Error! Language model can not be loaded!"       
+                return "Error! "+str(lang)+" language model is can not be loaded!"       
     return nlpModels
-
 
 def load_default_models(defaultLangs):
     nlpModels = dict()
     #checking if list is empty
     if defaultLangs:
         for lang in defaultLangs:
+            if lang not in nlpModels.keys():
+                try:
+                    stanza.download(lang)
+                    print (str(lang) + ' stanza model was downloaded successfully!')   
+                except:
+                    return "Error! "+str(lang)+" language model can not be dowloaded!" 
             try:
                 nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
                 print (str(lang) + ' stanza model was loaded successfully!')
             except:
-                return "Error! Language model is can not be loaded!"
+                return "Error! "+str(lang)+" language model is can not be loaded!"           
     else:
         print('The <defaultLangs> list is empty!')
         print ('Please, enter below at least one language ! For example, "en" or any other availible at https://fasttext.cc/docs/en/language-identification.html')
@@ -96,5 +99,5 @@ def load_default_languages():
     try:
         defaultLangs = (io.open("defaultLangs.csv", 'r', encoding="utf-8").read()).split()
     except:
-        defaultLangs = ['uk', 'ru', 'en', 'he', 'zh']
+        defaultLangs = ['uk', 'ru', 'en', 'he', 'zh', 'de']
     return defaultLangs

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb  11:45:30 2022
+Created on Wed Feb  12:44:23 2022
 
 @author: Олег Дмитренко
 
 """
 import fasttext
+import defaultLoader
 
 def built_words(sent, Words, stopWords):
     WordsTags = []
