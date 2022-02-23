@@ -26,6 +26,7 @@
 - `Docker` [v20.10](https://docs.docker.com/engine/release-notes/#version-2010)
 - `Kubernetes` [v1.22.4](https://github.com/kubernetes/kubernetes/releases/tag/v1.22.4)
 - `python 3.8.0` or newer [v3.8.0](https://www.python.org/downloads/release/python-380/)
+- `importlib` [v1.0.4](https://pypi.org/project/importlib/1.0.4/)
 - `Stanza` [v.1.3.0](https://pypi.org/project/stanza/1.3.0/)
 - `Stop-words` [v.2018.7.23](https://pypi.org/project/stop-words/2018.7.23/)
 - `fastText` [v9.0.2](https://github.com/facebookresearch/fastText)
@@ -54,7 +55,7 @@ stanza.download("de")
 Програмний модуль складається з частин:
 - `main.py` — головного скрипта, що викликає наступні підмодулі:
 	- `packagesImporter.py` — підмодуль, що відповідає за перевірку та завантаження необхідних програмних бібліотек, модулів та підмодулів, і складається з наступних функцій:
-		- 
+		- `setup_packeges` — функції установки та завантаження необхідних для коректного функціонування програмного модуля **"narrativeExtractor"** бібліотек та пакетів
 	- `defaultLoader.py` — підмодуль, що призначений для завантаження мовних моделей, які визначені у списку мов за замовуванням, і містить наступні функції:
 		- `load_default_languages` — функцію завантаження списку мов, визначених за замовчуванням, із файла `defaultLangs.csv` (у разі відсутності файлу список за замовчуваннм буде визначений як `'uk', 'ru', 'en', 'he', 'zh', 'de'`)
 		- `load_default_models` — функцію завантаження мовних моделей бібліотеки `Stanza` для списку мов, що визначені за замовчуванням
