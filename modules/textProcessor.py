@@ -6,7 +6,7 @@ Created on Wed Feb  12:44:23 2022
 
 """
 import fasttext
-import defaultLoader
+from modules import defaultLoader
 
 def built_words(sent, Words, stopWords):
     WordsTags = []
@@ -58,7 +58,7 @@ def nl_processing(text, nlpModel, stopWords):
             Threegrams = built_threegrams(WordsTags, Threegrams, stopWords)
     return Words, Bigrams, Threegrams
 
-def lang_detect(message, defaultLangs):
+def lang_detect(message, defaultLangs, nlpModels, stopWords):
     lidModel = fasttext.load_model('lid.176.ftz')
     if message.isspace():
         return "Error! Empty input space! Language of empty input space can not be defined!"
@@ -69,7 +69,6 @@ def lang_detect(message, defaultLangs):
         except:
             return "en"
     if lang not in defaultLangs:
-        defaultLoader.append_lang(lang, defaultLangs)
-        defaultLoader.download_model(defaultLangs)
-        defaultLoader.load_stop_words(defaultLangs)
+        defaultLoader.download_model(defaultLangs, nlpModels)
+        defaultLoader.load_stop_words(defaultLangs, stopWords)
     return lang
