@@ -5,6 +5,7 @@ Created on Wed Feb 11:45:30 2022
 @author: Олег Дмитренко
 
 """
+from modules import defaultLoader
 import os
 import io
 import stanza
@@ -18,6 +19,21 @@ def append_lang(lang, defaultLangs):
             file.close()
     except:
         print ('Unexpected Error while adding new languade to default list!')
+    return
+
+def delete_lang(lang, defaultLangs):
+    try:
+        defaultLangs.pop(lang)
+        file = open("defaultLangs.csv", "r", encoding="utf-8")
+        lines = file.readlines()
+        file.close()
+        with io.open("defaultLangs.csv", "w", encoding="utf-8") as file:
+            for line in lines[:len(lines)-2]:   
+                file.write(line)
+            file.write('\n')
+        file.close()
+    except:
+        print ('Unexpected Error while deleting the last languade from default list!')
     return
 
 def load_stop_words(defaultLangs, stopWords):
@@ -53,7 +69,7 @@ def load_default_stop_words(defaultLangs):
         print ('Please, enter below at least one language ! For example, "en" or any other availible at https://fasttext.cc/docs/en/language-identification.html')
         lang = input()
         append_lang(lang)
-        stopWords = load_stop_words(defaultLangs)
+        stopWords = load_stop_words(defaultLangs, stopWords)
     return stopWords
 
 def download_model(defaultLangs, nlpModels):
@@ -61,14 +77,16 @@ def download_model(defaultLangs, nlpModels):
         if lang not in nlpModels.keys():
             try:
                 stanza.download(lang)
+                defaultLoader.append_lang(lang, defaultLangs)
                 print (str(lang) + ' stanza model was downloaded successfully!')    
             except:
+                defaultLoader.delete_lang(lang, defaultLangs)
                 return "Error! "+str(lang)+" language model can not be dowloaded!" 
             try:
                 nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
                 print (str(lang) + ' stanza model was loaded successfully!')
             except:
-                return "Error! "+str(lang)+" language model is can not be loaded!"       
+                return None      
     return nlpModels
 
 def load_default_models(defaultLangs):
@@ -92,8 +110,15 @@ def load_default_models(defaultLangs):
         print ('Please, enter below at least one language ! For example, "en" or any other availible at https://fasttext.cc/docs/en/language-identification.html')
         lang = input()
         append_lang(lang)
-        nlpModels = download_model(defaultLangs)
+        nlpModels = download_model(defaultLangs, nlpModels)
     return nlpModels
+
+def load_except_languages():
+    try:
+        exceptedLangs = (io.open("exceptedLangs.csv", 'r', encoding="utf-8").read()).split()
+    except:
+        exceptedLangs = ['kv', 'tl', 'bcl', 'xal', 'ba', 'ga']
+    return exceptedLangs
 
 def load_default_languages():
     try:
