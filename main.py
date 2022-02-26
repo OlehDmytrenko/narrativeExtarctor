@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed May  5 10:32:58 2021
-Edited on Mon Oct  4 20:43:55 2021
-Edited on Mon Feb  7 05:45:53 2022
-Edited on Wed Feb  16 15:23:25 2022
-Edited on Thu Feb  22 06:07:42 2022
-Edited on Wed Feb  23 05:23:30 2022
+Created on Wed May 5 10:32:58 2021
+Edited on Mon Oct 4 20:43:55 2021
+Edited on Mon Feb 7 05:45:53 2022
+Edited on Wed Feb 16 15:23:25 2022
+Edited on Thu Feb 22 06:07:42 2022
+Edited on Wed Feb 23 05:23:30 2022
+Edited on Wed Fri 25 10:08:36 2022
+Edited on Wed Sat 26 17:04:55 2022
 
 @author: Олег Дмитренко
 
@@ -15,8 +17,10 @@ from modules import defaultLoader, textProcessor, termsRanker
 import sys
 
 if __name__ == "__main__":
-    #txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/process_xml/datasets/20210126.txt'
     txtFileDir = sys.argv[1]
+    #if start script not in CMD mode than comemnt line above and recomment line below
+    #txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/process_xml/datasets/20210126.txt'
+    
     defaultLangs = defaultLoader.load_default_languages()
     exceptedLangs = defaultLoader.load_except_languages()
     nlpModels = defaultLoader.load_default_models(defaultLangs)
