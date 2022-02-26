@@ -69,7 +69,7 @@ def download_model(defaultLangs, nlpModels, lang):
         #print (str(lang) + ' stanza model was loaded successfully!')
     except:
         return None      
-    return nlpModels
+    return lang
 
 def load_default_models(defaultLangs):
     nlpModels = dict()
