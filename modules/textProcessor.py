@@ -63,7 +63,7 @@ def nl_processing(text, nlpModel, stopWords):
 def lang_detect(message, defaultLangs, nlpModels, stopWords):
     lidModel = fasttext.load_model('lid.176.ftz')
     if message.isspace():
-        return "Error! Empty input space! Language of empty input space can not be defined!"
+        return 'kv'
     else:
         try:
             # get first item of the prediction tuple, then split by "__label__" and return only language code
