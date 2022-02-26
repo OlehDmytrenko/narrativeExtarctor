@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Feb 11:45:30 2022
+Edited on Wed Fri 25 10:16:56 2022
+Edited on Wed Sat 26 17:08:53 2022
 
 @author: Олег Дмитренко
 
@@ -21,33 +23,16 @@ def append_lang(lang, defaultLangs):
         print ('Unexpected Error while adding new languade to default list!')
     return
 
-def delete_lang(lang, defaultLangs):
+def load_stop_words(defaultLangs, stopWords, lang):
+    if os.path.isfile(lang+'.txt'):
+        localStopWords = (io.open(lang+'.txt', 'r', encoding="utf-8").read()).split()
+    else:
+        localStopWords = []
     try:
-        defaultLangs.pop(lang)
-        file = open("defaultLangs.csv", "r", encoding="utf-8")
-        lines = file.readlines()
-        file.close()
-        with io.open("defaultLangs.csv", "w", encoding="utf-8") as file:
-            for line in lines[:len(lines)-2]:   
-                file.write(line)
-            file.write('\n')
-        file.close()
+        stopWords[lang] = set(safe_get_stop_words(lang) + localStopWords)
+        #print (str(lang) + ' stop words was loaded successfully!')
     except:
-        print ('Unexpected Error while deleting the last languade from default list!')
-    return
-
-def load_stop_words(defaultLangs, stopWords):
-    for lang in defaultLangs:
-        if lang not in stopWords.keys():
-            if os.path.isfile(lang+'.txt'):
-                localStopWords = (io.open(lang+'.txt', 'r', encoding="utf-8").read()).split()
-            else:
-                localStopWords = []
-            try:
-                stopWords[lang] = set(safe_get_stop_words(lang) + localStopWords)
-                print (str(lang) + ' stop words was loaded successfully!')
-            except:
-                return "Error! Stop words can not be loaded!"      
+        return "Error! Stop words can not be loaded!"      
     return stopWords
 
 def load_default_stop_words(defaultLangs):
@@ -61,7 +46,7 @@ def load_default_stop_words(defaultLangs):
                 localStopWords = []
             try:
                 stopWords[lang] = set(safe_get_stop_words(lang) + localStopWords)
-                print (str(lang) + ' stop words was loaded successfully!')
+                #print (str(lang) + ' stop words was loaded successfully!')
             except:
                 return "Error! Stop words can not be loaded!"
     else:
@@ -72,21 +57,18 @@ def load_default_stop_words(defaultLangs):
         stopWords = load_stop_words(defaultLangs, stopWords)
     return stopWords
 
-def download_model(defaultLangs, nlpModels):
-    for lang in defaultLangs:
-        if lang not in nlpModels.keys():
-            try:
-                stanza.download(lang)
-                defaultLoader.append_lang(lang, defaultLangs)
-                print (str(lang) + ' stanza model was downloaded successfully!')    
-            except:
-                defaultLoader.delete_lang(lang, defaultLangs)
-                return "Error! "+str(lang)+" language model can not be dowloaded!" 
-            try:
-                nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
-                print (str(lang) + ' stanza model was loaded successfully!')
-            except:
-                return None      
+def download_model(defaultLangs, nlpModels, lang):
+    try:
+        stanza.download(lang)
+        defaultLoader.append_lang(lang, defaultLangs)
+        #print (str(lang) + ' stanza model was downloaded successfully!')    
+    except:
+        return 'en'
+    try:
+        nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
+        #print (str(lang) + ' stanza model was loaded successfully!')
+    except:
+        return None      
     return nlpModels
 
 def load_default_models(defaultLangs):
@@ -97,12 +79,12 @@ def load_default_models(defaultLangs):
             if lang not in nlpModels.keys():
                 try:
                     stanza.download(lang)
-                    print (str(lang) + ' stanza model was downloaded successfully!')   
+                    #print (str(lang) + ' stanza model was downloaded successfully!')   
                 except:
                     return "Error! "+str(lang)+" language model can not be dowloaded!" 
             try:
                 nlpModels[lang] = stanza.Pipeline(lang, processors='tokenize,pos,lemma') 
-                print (str(lang) + ' stanza model was loaded successfully!')
+                #print (str(lang) + ' stanza model was loaded successfully!')
             except:
                 return "Error! "+str(lang)+" language model is can not be loaded!"           
     else:

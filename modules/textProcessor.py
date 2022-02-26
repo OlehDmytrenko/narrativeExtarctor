@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb  12:44:23 2022
+Created on Wed Feb  2:44:23 2022
+Edited on Wed Fri 25 11:12:34 2022
+Edited on Wed Sat 26 17:44:45 2022
 
 @author: Олег Дмитренко
 
@@ -69,6 +71,6 @@ def lang_detect(message, defaultLangs, nlpModels, stopWords):
         except:
             return "en"
     if lang not in defaultLangs:
-        defaultLoader.download_model(defaultLangs, nlpModels)
-        defaultLoader.load_stop_words(defaultLangs, stopWords)
+        lang = defaultLoader.download_model(defaultLangs, nlpModels, lang)
+        defaultLoader.load_stop_words(defaultLangs, stopWords, lang)
     return lang
