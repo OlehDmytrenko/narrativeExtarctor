@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Feb 12:55:31 2022
+Edited on Sun Feb 26 23:54:43 2022
 
 @author: Олег Дмитренко
 
-"""
+"""      
+from modules import packagesInstaller
+packages = ['nltk']
+packagesInstaller.setup_packeges(packages)
+
 from nltk import FreqDist
 
 def most_freq(keyTerms, top):

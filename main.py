@@ -6,20 +6,25 @@ Edited on Mon Feb 7 05:45:53 2022
 Edited on Wed Feb 16 15:23:25 2022
 Edited on Thu Feb 22 06:07:42 2022
 Edited on Wed Feb 23 05:23:30 2022
-Edited on Wed Fri 25 10:08:36 2022
-Edited on Wed Sat 26 17:04:55 2022
+Edited on Fri Feb 25 10:08:36 2022
+Edited on Sat Feb 26 17:04:55 2022
+Edited on Sun Feb 26 17:04:55 2022
 
 @author: Олег Дмитренко
 
 """
+from modules import packagesInstaller
+packages = ['sys', 'modules']
+packagesInstaller.setup_packeges(packages)
 
-from modules import defaultLoader, textProcessor, termsRanker
 import sys
+from modules import defaultLoader, textProcessor, termsRanker
 
 if __name__ == "__main__":
-    txtFileDir = sys.argv[1]
+    
+    #txtFileDir = sys.argv[1]
     #if start script not in CMD mode than comemnt line above and recomment line below
-    #txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/process_xml/datasets/20210126.txt'
+    txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/narrativeExtarctor/datasets/20210126.txt'
     
     defaultLangs = defaultLoader.load_default_languages()
     exceptedLangs = defaultLoader.load_except_languages()

@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Feb 11:45:30 2022
-Edited on Wed Fri 25 10:16:56 2022
-Edited on Wed Sat 26 17:08:53 2022
+Edited on Fri Feb 25 10:16:56 2022
+Edited on Sat Feb 26 23:46:57 2022
 
 @author: Олег Дмитренко
 
 """
-from modules import defaultLoader
+from modules import packagesInstaller
+packages = ['os', 'io', 'modules', 'stanza', 'stop_words']
+packagesInstaller.setup_packeges(packages)
+
 import os
 import io
+from modules import defaultLoader
 import stanza
 from stop_words import safe_get_stop_words
 
