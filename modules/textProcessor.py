@@ -2,11 +2,15 @@
 """
 Created on Wed Feb  2:44:23 2022
 Edited on Wed Fri 25 11:12:34 2022
-Edited on Wed Sat 26 17:44:45 2022
+Edited on Wed Sat 26 23:57:53 2022
 
 @author: Олег Дмитренко
 
 """
+from modules import packagesInstaller
+packages = ['fasttext', 'modules']
+packagesInstaller.setup_packeges(packages)
+
 import fasttext
 from modules import defaultLoader
 
