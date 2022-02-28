@@ -31,7 +31,7 @@
 - `Stop-words` [v.2018.7.23](https://pypi.org/project/stop-words/2018.7.23/)
 - `fastText` [v9.0.2](https://github.com/facebookresearch/fastText)
 - `nltk` [v3.7](https://pypi.org/project/nltk/3.7/)
-- [lid.176.ftz](https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz)
+- [lid.176.ftz](https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz) — модель бібліотеки `fasttext` для розпізнавання [176 мов](https://fasttext.cc/docs/en/language-identification.html#list-of-supported-languages) 
 - `uk`, `ru`, `en`, `he`, `zh` та `de` [models](https://stanfordnlp.github.io/stanza/available_models.html) для відповідно української, російської, англійської, івриту, китайської німецької мови, які можна інсталювати за бажанням вручну (не вимагається!), виконавши наступний програмний код:
 ```python
 import stanza
