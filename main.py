@@ -22,9 +22,9 @@ from modules import defaultLoader, textProcessor, termsRanker
 
 if __name__ == "__main__":
     
-    #txtFileDir = sys.argv[1]
+    txtFileDir = sys.argv[1]
     #if start script not in CMD mode than comemnt line above and recomment line below
-    txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/narrativeExtarctor/datasets/20210126.txt'
+    #txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/narrativeExtarctor/datasets/20210126.txt'
     
     defaultLangs = defaultLoader.load_default_languages()
     exceptedLangs = defaultLoader.load_except_languages()
