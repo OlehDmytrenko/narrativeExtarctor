@@ -14,9 +14,6 @@ Edited on Sun Feb 26 17:04:55 2022
 
 """
 from modules import packagesInstaller
-packages = ['sys', 'modules']
-packagesInstaller.setup_packeges(packages)
-
 import sys
 from modules import defaultLoader, textProcessor, termsRanker
 
