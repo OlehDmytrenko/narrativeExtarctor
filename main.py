@@ -13,7 +13,6 @@ Edited on Sun Feb 26 17:04:55 2022
 @author: Олег Дмитренко
 
 """
-from modules import packagesInstaller
 import sys
 from modules import defaultLoader, textProcessor, termsRanker
 
