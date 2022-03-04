@@ -64,7 +64,7 @@ def load_default_stop_words(defaultLangs):
 def download_model(defaultLangs, nlpModels, lang):
     try:
         stanza.download(lang)
-        defaultLoader.append_lang(lang, defaultLangs)
+        append_lang(lang, defaultLangs)
         #print (str(lang) + ' stanza model was downloaded successfully!')    
     except:
         return 'en'
@@ -95,7 +95,7 @@ def load_default_models(defaultLangs):
         print('The <defaultLangs> list is empty!')
         print ('Please, enter below at least one language ! For example, "en" or any other availible at https://fasttext.cc/docs/en/language-identification.html')
         lang = input()
-        append_lang(lang)
+        append_lang(lang, defaultLangs)
         nlpModels = download_model(defaultLangs, nlpModels)
     return nlpModels
 

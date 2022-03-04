@@ -9,18 +9,19 @@ Edited on Wed Feb 23 05:23:30 2022
 Edited on Fri Feb 25 10:08:36 2022
 Edited on Sat Feb 26 17:04:55 2022
 Edited on Sun Feb 26 17:04:55 2022
+Edited on Fri Mar 04 16:05:23 2022
 
 @author: Олег Дмитренко
 
 """
-import sys
+import os, subprocess, sys
+subprocess.run('python -m venv '+os.getcwd()+'/modules/', shell=True)
 from modules import defaultLoader, textProcessor, termsRanker
 
 if __name__ == "__main__":
-    
     txtFileDir = sys.argv[1]
     #if start script not in CMD mode than comemnt line above and recomment line below
-    #txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/narrativeExtarctor/datasets/20210126.txt'
+    #txtFileDir = '/Users/dmytrenko.o/Documents/GitHub/narrativeExtarctor/datasets/otbor4.txt'
     
     defaultLangs = defaultLoader.load_default_languages()
     exceptedLangs = defaultLoader.load_except_languages()
